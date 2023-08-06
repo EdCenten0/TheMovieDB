@@ -1,0 +1,19 @@
+{
+  "name": "themoviedb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EdCenten0/TheMovieDB.git"
+  },
+  "author": "Carlos Chavarria Centeno - EdCenten0 (cchavarriacenteno8@gmail.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EdCenten0/TheMovieDB/issues"
+  },
+  "homepage": "https://github.com/EdCenten0/TheMovieDB#readme"
+}
