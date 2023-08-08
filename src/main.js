@@ -92,3 +92,13 @@ export async function getMoviesBySearch(query) {
   createMovies(movies, genericSection);
   console.log({ data, movies });
 }
+
+export async function getTrendingMovies() {
+  const { data } = await api("trending/movie/day");
+
+  trendingMoviesPreviewList.innerHTML = "";
+  const movies = data.results;
+
+  createMovies(movies, genericSection);
+  console.log({ data, movies });
+}

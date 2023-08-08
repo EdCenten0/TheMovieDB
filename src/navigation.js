@@ -3,6 +3,7 @@ import {
   getCategoriesPreview,
   getMoviesByCategory,
   getMoviesBySearch,
+  getTrendingMovies,
 } from "./main.js";
 
 function navigator() {
@@ -35,6 +36,9 @@ function trendsPage() {
   categoriesPreviewSection.classList.add("inactive");
   genericSection.classList.remove("inactive");
   movieDetailSection.classList.add("inactive");
+
+  headerCategoryTitle.innerHTML = "Tendencias";
+  getTrendingMovies();
 }
 function searchPage() {
   console.log("Searching");
@@ -119,6 +123,7 @@ trendingBtn.addEventListener("click", () => {
   location.hash = "#trends";
 });
 arrowBtn.addEventListener("click", () => {
+  history.back();
   location.hash = "#home";
 });
 
