@@ -88,7 +88,7 @@ function homePage() {
   headerCategoryTitle.classList.add("inactive");
   searchForm.classList.remove("inactive");
   trendingPreviewSection.classList.remove("inactive");
-  categoriesPreviewSection.classList.add("inactive");
+  categoriesPreviewSection.classList.remove("inactive");
   genericSection.classList.add("inactive");
   movieDetailSection.classList.add("inactive");
 
