@@ -124,4 +124,12 @@ export async function getMovieById(id) {
   movieDetailScore.textContent = movie.vote_average;
 
   createCategories(movie.genres, movieDetailCategoriesList);
+  getRelatedMoviesId(id);
+}
+
+async function getRelatedMoviesId(id) {
+  const { data: movie } = await api("movie/" + id + "/similar");
+  const relatedMovies = movie.results;
+
+  createMovies(relatedMovies, relatedMoviesContainer);
 }
