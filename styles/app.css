@@ -151,7 +151,7 @@ footer {
       rgba(0, 0, 0, 0.35) 19.27%,
       rgba(0, 0, 0, 0) 29.17%
     ),
-    url(https://pics.filmaffinity.com/Deadpool-777527803-large.jpg);
+    url();
   background-size: cover !important;
   height: 480px;
   position: fixed;
