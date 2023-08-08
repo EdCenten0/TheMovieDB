@@ -1,5 +1,8 @@
-import { getTrendingMoviesPreview } from "./main.js";
-import { getCategoriesPreview } from "./main.js";
+import {
+  getTrendingMoviesPreview,
+  getCategoriesPreview,
+  getMoviesByCategory,
+} from "./main.js";
 
 function navigator() {
   console.log({ location });
@@ -76,6 +79,15 @@ function categoriesPage() {
   categoriesPreviewSection.classList.add("inactive");
   genericSection.classList.remove("inactive");
   movieDetailSection.classList.add("inactive");
+
+  let [_, categoryData] = location.hash.split("=");
+  let [categoryId, categoryName] = categoryData.split("-");
+
+  let decodedName = decodeURI(categoryName);
+
+  headerCategoryTitle.innerHTML = decodedName;
+
+  getMoviesByCategory(categoryId);
 }
 function homePage() {
   console.log("Home");
