@@ -63,7 +63,7 @@ function movieDetailsPage() {
   console.log("MovieDetails");
 
   headerSection.classList.add("header-container--long");
-  //   headerSection.style.background = "";
+
   arrowBtn.classList.remove("inactive");
   arrowBtn.classList.add("header-arrow--white");
   headerTitle.classList.add("inactive");
