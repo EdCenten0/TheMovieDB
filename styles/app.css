@@ -126,8 +126,30 @@ footer {
   cursor: pointer;
 }
 
+.movie-container--loading {
+  background: var(--purple-light-2);
+  border-radius: 8px;
+  height: 225px;
+  min-height: 225px;
+  max-height: 225px;
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
+  margin-bottom: 15px;
+  animation: loading-skeleton infinite 1.5s;
+}
+
+.movie-container--loading:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.movie-container--loading:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
 .movie-img {
   border-radius: 8px;
+  min-height: 175px;
 }
 
 .categoriesPreview-list,
@@ -418,4 +440,17 @@ footer {
 /* Navigation */
 .inactive {
   display: none;
+}
+
+/* animations */
+
+@keyframes loading-skeleton {
+  0%,
+  100% {
+    opacity: 100%;
+  }
+
+  50% {
+    opacity: 0%;
+  }
 }

@@ -10,7 +10,17 @@ const api = axios.create({
   },
 });
 
-function createMovies(movies, container) {
+// Utils
+const lazyLoader = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      const url = entry.target.getAttribute("data-img");
+      entry.target.setAttribute("src", url);
+    }
+  });
+});
+
+function createMovies(movies, container, lazyLoad = false) {
   container.innerHTML = "";
 
   movies.forEach((movie) => {
@@ -24,9 +34,20 @@ function createMovies(movies, container) {
     movieImg.classList.add("movie-img");
     movieImg.setAttribute("alt", movie.title);
     movieImg.setAttribute(
-      "src",
+      lazyLoad ? "data-img" : "src",
       `https://image.tmdb.org/t/p/w300/${movie.poster_path}`
     );
+
+    movieImg.addEventListener("error", () => {
+      movieImg.setAttribute(
+        "src",
+        "https://static.vecteezy.com/system/resources/thumbnails/003/678/259/small/triangle-caution-yellow-sign-icon-free-vector.jpg"
+      );
+    });
+
+    if (lazyLoad) {
+      lazyLoader.observe(movieImg);
+    }
 
     movieContainer.appendChild(movieImg);
 
@@ -61,7 +82,7 @@ export async function getTrendingMoviesPreview() {
   trendingMoviesPreviewList.innerHTML = "";
   const movies = data.results;
 
-  createMovies(movies, trendingMoviesPreviewList);
+  createMovies(movies, trendingMoviesPreviewList, true);
   console.log({ data, movies });
 }
 
@@ -82,7 +103,7 @@ export async function getMoviesByCategory(id) {
     },
   });
   const movies = data.results;
-  createMovies(movies, genericSection);
+  createMovies(movies, genericSection, true);
   console.log({ data, movies });
 }
 
