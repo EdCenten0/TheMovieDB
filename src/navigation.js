@@ -5,10 +5,19 @@ import {
   getMoviesBySearch,
   getTrendingMovies,
   getMovieById,
+  getPaginatedTrendingMovies,
 } from "./main.js";
+
+export let page = 1;
+let infiniteScroll;
 
 function navigator() {
   console.log({ location });
+
+  if (infiniteScroll) {
+    window.removeEventListener("scroll", infinteScroll);
+    infinteScroll = undefined;
+  }
   if (location.hash.startsWith("#trends")) {
     trendsPage();
   } else if (location.hash.startsWith("#search=")) {
@@ -21,7 +30,9 @@ function navigator() {
     homePage();
   }
 
-  location.hash;
+  if (infiniteScroll) {
+    window.addEventListener("scroll", infiniteScroll, { passive: false });
+  }
 }
 
 function trendsPage() {
@@ -40,6 +51,9 @@ function trendsPage() {
 
   headerCategoryTitle.innerHTML = "Tendencias";
   getTrendingMovies();
+
+  // Makes dynamic function call
+  infiniteScroll = getPaginatedTrendingMovies;
 }
 function searchPage() {
   console.log("Searching");
@@ -133,3 +147,4 @@ arrowBtn.addEventListener("click", () => {
 
 window.addEventListener("hashchange", navigator, false);
 window.addEventListener("DOMContentLoaded", navigator, false);
+window.addEventListener("click", infiniteScroll);

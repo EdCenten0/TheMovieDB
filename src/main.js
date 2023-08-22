@@ -1,4 +1,5 @@
 import { API_KEY } from "./secrets.js";
+import { page } from "./navigation.js";
 
 const api = axios.create({
   baseURL: "https://api.themoviedb.org/3/",
@@ -20,8 +21,16 @@ const lazyLoader = new IntersectionObserver((entries) => {
   });
 });
 
-function createMovies(movies, container, lazyLoad = false) {
-  container.innerHTML = "";
+function createMovies(
+  movies,
+  container,
+  { lazyLoad = false, clean = true } = {}
+) {
+  // container.innerHTML = "";
+
+  if (clean) {
+    container.innerHTML = "";
+  }
 
   movies.forEach((movie) => {
     const movieContainer = document.createElement("div");
@@ -121,11 +130,31 @@ export async function getMoviesBySearch(query) {
 export async function getTrendingMovies() {
   const { data } = await api("trending/movie/day");
 
-  trendingMoviesPreviewList.innerHTML = "";
   const movies = data.results;
 
-  createMovies(movies, genericSection);
-  console.log({ data, movies });
+  createMovies(movies, genericSection, { lazyLoad: true, clean: true });
+  // console.log({ data, movies });
+}
+
+export async function getPaginatedTrendingMovies() {
+  const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+  const scrollIsBottom = scrollTop + clientHeight >= scrollHeight - 15;
+
+  if (scrollIsBottom) {
+    const { data } = await api("trending/movie/day", {
+      params: {
+        page,
+      },
+    });
+
+    const movies = data.results;
+    createMovies(movies, genericSection, { lazyLoad: true, clean: false });
+  }
+
+  // const btnLoadMore = document.createElement("button");
+  // btnLoadMore.innerText = "Cargar Mas";
+  // btnLoadMore.addEventListener("click", getTrendingMovies);
+  // genericSection.appendChild(btnLoadMore);
 }
 
 export async function getMovieById(id) {
