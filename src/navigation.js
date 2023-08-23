@@ -7,6 +7,7 @@ import {
   getMovieById,
   getPaginatedTrendingMovies,
   getPaginatedMoviesBySearch,
+  getPaginatedMoviesByCategory,
 } from "./main.js";
 
 export let maxPage;
