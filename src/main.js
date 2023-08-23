@@ -1,5 +1,6 @@
 import { API_KEY } from "./secrets.js";
 import { page } from "./navigation.js";
+import { maxPage } from "./navigation.js";
 
 const api = axios.create({
   baseURL: "https://api.themoviedb.org/3/",
@@ -12,6 +13,7 @@ const api = axios.create({
 });
 
 // Utils
+
 const lazyLoader = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
@@ -26,8 +28,6 @@ function createMovies(
   container,
   { lazyLoad = false, clean = true } = {}
 ) {
-  // container.innerHTML = "";
-
   if (clean) {
     container.innerHTML = "";
   }
@@ -36,7 +36,7 @@ function createMovies(
     const movieContainer = document.createElement("div");
     movieContainer.classList.add("movie-container");
     movieContainer.addEventListener("click", () => {
-      location.hash = "movie=" + movie.id;
+      location.hash = "#movie=" + movie.id;
     });
 
     const movieImg = document.createElement("img");
@@ -44,13 +44,12 @@ function createMovies(
     movieImg.setAttribute("alt", movie.title);
     movieImg.setAttribute(
       lazyLoad ? "data-img" : "src",
-      `https://image.tmdb.org/t/p/w300/${movie.poster_path}`
+      "https://image.tmdb.org/t/p/w300" + movie.poster_path
     );
-
     movieImg.addEventListener("error", () => {
       movieImg.setAttribute(
         "src",
-        "https://static.vecteezy.com/system/resources/thumbnails/003/678/259/small/triangle-caution-yellow-sign-icon-free-vector.jpg"
+        "https://static.platzi.com/static/images/error/img404.png"
       );
     });
 
@@ -59,7 +58,6 @@ function createMovies(
     }
 
     movieContainer.appendChild(movieImg);
-
     container.appendChild(movieContainer);
   });
 }
@@ -73,9 +71,9 @@ function createCategories(categories, container) {
 
     const categoryTitle = document.createElement("h3");
     categoryTitle.classList.add("category-title");
-    categoryTitle.setAttribute("id", `id${category.id}`);
+    categoryTitle.setAttribute("id", "id" + category.id);
     categoryTitle.addEventListener("click", () => {
-      location.hash = "category=" + category.id + "-" + category.name;
+      location.hash = `#category=${category.id}-${category.name}`;
     });
     const categoryTitleText = document.createTextNode(category.name);
 
@@ -85,23 +83,20 @@ function createCategories(categories, container) {
   });
 }
 
+// Llamados a la API
+
 export async function getTrendingMoviesPreview() {
   const { data } = await api("trending/movie/day");
-
-  trendingMoviesPreviewList.innerHTML = "";
   const movies = data.results;
+  console.log(movies);
 
   createMovies(movies, trendingMoviesPreviewList, true);
-  console.log({ data, movies });
 }
 
 export async function getCategoriesPreview() {
-  const res = await fetch(
-    "https://api.themoviedb.org/3/genre/movie/list?api_key=" + API_KEY
-  );
-  const data = await res.json();
-  // categoriesPreviewList.innerHTML = "";
+  const { data } = await api("genre/movie/list");
   const categories = data.genres;
+
   createCategories(categories, categoriesPreviewList);
 }
 
@@ -112,8 +107,30 @@ export async function getMoviesByCategory(id) {
     },
   });
   const movies = data.results;
-  createMovies(movies, genericSection, true);
-  console.log({ data, movies });
+
+  createMovies(movies, genericSection, { lazyLoad: true });
+}
+
+export function getPaginatedMoviesByCategory(id) {
+  return async function () {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+
+    const scrollIsBottom = scrollTop + clientHeight >= scrollHeight - 15;
+    const pageIsNotMax = page < maxPage;
+
+    if (scrollIsBottom && pageIsNotMax) {
+      page++;
+      const { data } = await api("discover/movie", {
+        params: {
+          with_genres: id,
+          page,
+        },
+      });
+      const movies = data.results;
+
+      createMovies(movies, genericSection, { lazyLoad: true, clean: false });
+    }
+  };
 }
 
 export async function getMoviesBySearch(query) {
@@ -123,63 +140,84 @@ export async function getMoviesBySearch(query) {
     },
   });
   const movies = data.results;
+
   createMovies(movies, genericSection);
-  console.log({ data, movies });
+}
+
+export function getPaginatedMoviesBySearch(query) {
+  return async function () {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+
+    const scrollIsBottom = scrollTop + clientHeight >= scrollHeight - 15;
+    const pageIsNotMax = page < maxPage;
+
+    if (scrollIsBottom && pageIsNotMax) {
+      page++;
+      const { data } = await api("search/movie", {
+        params: {
+          query,
+          page,
+        },
+      });
+      const movies = data.results;
+
+      createMovies(movies, genericSection, { lazyLoad: true, clean: false });
+    }
+  };
 }
 
 export async function getTrendingMovies() {
   const { data } = await api("trending/movie/day");
-
   const movies = data.results;
 
   createMovies(movies, genericSection, { lazyLoad: true, clean: true });
-  // console.log({ data, movies });
 }
 
 export async function getPaginatedTrendingMovies() {
   const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-  const scrollIsBottom = scrollTop + clientHeight >= scrollHeight - 15;
 
-  if (scrollIsBottom) {
+  const scrollIsBottom = scrollTop + clientHeight >= scrollHeight - 15;
+  const pageIsNotMax = page < maxPage;
+
+  if (scrollIsBottom && pageIsNotMax) {
+    page++;
     const { data } = await api("trending/movie/day", {
       params: {
         page,
       },
     });
-
     const movies = data.results;
+
     createMovies(movies, genericSection, { lazyLoad: true, clean: false });
   }
-
-  // const btnLoadMore = document.createElement("button");
-  // btnLoadMore.innerText = "Cargar Mas";
-  // btnLoadMore.addEventListener("click", getTrendingMovies);
-  // genericSection.appendChild(btnLoadMore);
 }
 
 export async function getMovieById(id) {
   const { data: movie } = await api("movie/" + id);
 
-  const movieImgUrl = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
+  const movieImgUrl = "https://image.tmdb.org/t/p/w500" + movie.poster_path;
+  console.log(movieImgUrl);
   headerSection.style.background = `
-  linear-gradient(
-    180deg, 
-    rgba(0, 0, 0, 0.35) 19.27%, 
-    rgba(0, 0, 0, 0) 29.17%
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.35) 19.27%,
+      rgba(0, 0, 0, 0) 29.17%
     ),
-  url(${movieImgUrl})`;
+    url(${movieImgUrl})
+  `;
 
   movieDetailTitle.textContent = movie.title;
   movieDetailDescription.textContent = movie.overview;
   movieDetailScore.textContent = movie.vote_average;
 
   createCategories(movie.genres, movieDetailCategoriesList);
+
   getRelatedMoviesId(id);
 }
 
-async function getRelatedMoviesId(id) {
-  const { data: movie } = await api("movie/" + id + "/similar");
-  const relatedMovies = movie.results;
+export async function getRelatedMoviesId(id) {
+  const { data } = await api(`movie/${id}/recommendations`);
+  const relatedMovies = data.results;
 
   createMovies(relatedMovies, relatedMoviesContainer);
 }
