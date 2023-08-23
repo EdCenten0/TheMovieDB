@@ -35,3 +35,8 @@ const movieDetailDescription = document.querySelector(
   ".movieDetail-description"
 );
 const movieDetailScore = document.querySelector(".movieDetail-score");
+
+// LikedMovies
+
+const likedMoviesListArticle = document.querySelector(".liked-movieList");
+const likedMoviesSection = document.getElementById("liked");
