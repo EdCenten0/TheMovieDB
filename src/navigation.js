@@ -15,6 +15,44 @@ import {
 export let maxPage;
 export let page = 1;
 let infiniteScroll;
+export const languagesTemplates = {
+  es: {
+    searchLabel: "Vengadores",
+    trending: "Tendencias",
+    trendingBtn: "Ver más",
+    categories: "Categorias",
+    favoriteMovies: "Peliculas Favoritas",
+    similarMovies: "Peliculas Similares",
+    footer: "Hecho con amor por @juandc",
+  },
+  en: {
+    searchLabel: "Avengers",
+    trending: "Trending",
+    trendingBtn: "More",
+    categories: "Categories",
+    favoriteMovies: "Favorite Movies",
+    similarMovies: "Similar Movies",
+    footer: "Made with Love By @juandc",
+  },
+  de: {
+    searchLabel: "Avengers",
+    trending: "Trends",
+    trendingBtn: "Mehr sehen",
+    categories: "Kategorien",
+    favoriteMovies: "Lieblingsfilme",
+    similarMovies: "Ähnliche Filme",
+    footer: "Mit Liebe gemacht von @juandc",
+  },
+  fr: {
+    searchLabel: "Avengers",
+    trending: "Les tendances",
+    trendingBtn: "Voir plus",
+    categories: "Catégories",
+    favoriteMovies: "Films préférés",
+    similarMovies: "Films similaires",
+    footer: "Fait avec amour par @juandc",
+  },
+};
 
 searchFormBtn.addEventListener("click", () => {
   location.hash = "#search=" + searchFormInput.value;

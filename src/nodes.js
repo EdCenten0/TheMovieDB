@@ -47,3 +47,9 @@ const selectLanguageContainer = document.getElementById(
 );
 const languagesBox = document.getElementById("languagesBox");
 const selectLanguageBtn = document.getElementById("selectLanguageBtn");
+
+const trendingTitle = document.querySelector(".trendingPreview-title");
+const categoriesPreviewTitle = document.querySelector(
+  ".categoriesPreview-title"
+);
+const favoritesMoviesTitle = document.querySelector(".liked-title");
