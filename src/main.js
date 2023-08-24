@@ -272,3 +272,64 @@ export function getLikedMovies() {
     clean: true,
   });
 }
+
+// Languages
+
+const languagesTemplates = {
+  es: {
+    searchLabel: "Vengadores",
+    trending: "Tendencias",
+    trendingBtn: "Ver más",
+    categories: "Categorias",
+    favoriteMovies: "Peliculas Favoritas",
+    similarMovies: "Peliculas Similares",
+    footer: "Hecho con amor por @juandc",
+  },
+  en: {
+    searchLabel: "Avengers",
+    trending: "Trending",
+    trendingBtn: "More About",
+    categories: "Categories",
+    favoriteMovies: "Favorite Movies",
+    similarMovies: "Similar Movies",
+    footer: "Made with Love By @juandc",
+  },
+  de: {
+    searchLabel: "Avengers",
+    trending: "Trends",
+    trendingBtn: "Mehr sehen",
+    categories: "Kategorien",
+    favoriteMovies: "Lieblingsfilme",
+    similarMovies: "Ähnliche Filme",
+    footer: "Mit Liebe gemacht von @juandc",
+  },
+  fr: {
+    searchLabel: "Avengers",
+    trending: "Les tendances",
+    trendingBtn: "Voir plus",
+    categories: "Catégories",
+    favoriteMovies: "Films préférés",
+    similarMovies: "Films similaires",
+    footer: "Fait avec amour par @juandc",
+  },
+};
+
+async function languages() {
+  const { data } = await api("configuration/languages");
+
+  console.log(data);
+}
+
+languages();
+
+function changeUiLanguage(language) {}
+
+export function selectedLanguage() {
+  const languageOptions = document.querySelectorAll(".language-option");
+  languageOptions.forEach((option) => {
+    option.addEventListener("click", () => {
+      let language = option.id;
+      changeSelectedLanguage();
+    });
+  });
+}

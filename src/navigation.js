@@ -9,6 +9,7 @@ import {
   getPaginatedMoviesBySearch,
   getPaginatedMoviesByCategory,
   getLikedMovies,
+  selectedLanguage,
 } from "./main.js";
 
 export let maxPage;
@@ -31,6 +32,9 @@ arrowBtn.addEventListener("click", () => {
 window.addEventListener("DOMContentLoaded", navigator, false);
 window.addEventListener("hashchange", navigator, false);
 window.addEventListener("scroll", infiniteScroll, false);
+selectLanguageBtn.addEventListener("click", () => {
+  languagesBox.classList.toggle("inactive");
+});
 
 function navigator() {
   console.log({ location });
@@ -76,10 +80,12 @@ function homePage() {
   genericSection.classList.add("inactive");
   movieDetailSection.classList.add("inactive");
   likedMoviesSection.classList.remove("inactive");
+  selectLanguageContainer.classList.remove("inactive");
 
   getTrendingMoviesPreview();
   getCategoriesPreview();
   getLikedMovies();
+  selectedLanguage();
 }
 
 function categoriesPage() {
@@ -98,6 +104,7 @@ function categoriesPage() {
   genericSection.classList.remove("inactive");
   movieDetailSection.classList.add("inactive");
   likedMoviesSection.classList.add("inactive");
+  selectLanguageContainer.classList.add("inactive");
 
   // ['#category', 'id-name']
   const [_, categoryData] = location.hash.split("=");
@@ -126,6 +133,7 @@ function movieDetailsPage() {
   genericSection.classList.add("inactive");
   movieDetailSection.classList.remove("inactive");
   likedMoviesSection.classList.add("inactive");
+  selectLanguageContainer.classList.add("inactive");
 
   // ['#movie', '234567']
   const [_, movieId] = location.hash.split("=");
@@ -148,6 +156,7 @@ function searchPage() {
   genericSection.classList.remove("inactive");
   movieDetailSection.classList.add("inactive");
   likedMoviesSection.classList.add("inactive");
+  selectLanguageContainer.classList.add("inactive");
 
   // ['#search', 'platzi']
   const [_, query] = location.hash.split("=");
@@ -172,6 +181,7 @@ function trendsPage() {
   genericSection.classList.remove("inactive");
   movieDetailSection.classList.add("inactive");
   likedMoviesSection.classList.add("inactive");
+  selectLanguageContainer.classList.add("inactive");
 
   headerCategoryTitle.innerHTML = "Tendencias";
 

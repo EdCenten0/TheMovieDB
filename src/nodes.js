@@ -40,3 +40,10 @@ const movieDetailScore = document.querySelector(".movieDetail-score");
 
 const likedMoviesListArticle = document.querySelector(".liked-movieList");
 const likedMoviesSection = document.getElementById("liked");
+
+// Language
+const selectLanguageContainer = document.getElementById(
+  "selectLanguageContainer"
+);
+const languagesBox = document.getElementById("languagesBox");
+const selectLanguageBtn = document.getElementById("selectLanguageBtn");
