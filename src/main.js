@@ -239,7 +239,11 @@ export async function getPaginatedTrendingMovies() {
 }
 
 export async function getMovieById(id) {
-  const { data: movie } = await api("movie/" + id);
+  const { data: movie } = await api("movie/" + id, {
+    params: {
+      language: currentLanguage,
+    },
+  });
 
   const movieImgUrl = "https://image.tmdb.org/t/p/w500" + movie.poster_path;
   console.log(movieImgUrl);
