@@ -1,5 +1,5 @@
 import { API_KEY } from "./secrets.js";
-import { page, languagesTemplates } from "./navigation.js";
+import { page } from "./navigation.js";
 import { maxPage } from "./navigation.js";
 
 // Data
@@ -281,32 +281,4 @@ async function languages() {
   console.log(data);
 }
 
-languages();
-
-async function changeUiLanguage(language) {
-  console.log("ChangeUI: " + language);
-  try {
-    searchFormInput.setAttribute(
-      "placeholder",
-      languagesTemplates[language].searchLabel
-    );
-    trendingTitle.innerHTML = languagesTemplates[language].trending;
-    categoriesPreviewTitle.innerHTML = languagesTemplates[language].categories;
-    trendingBtn.innerHTML = languagesTemplates[language].trendingBtn;
-    favoritesMoviesTitle.innerHTML =
-      languagesTemplates[language].favoriteMovies;
-  } catch (err) {
-    console.log("Error con el idioma: " + err);
-  }
-}
-
-export function selectedLanguage() {
-  const languageOptions = document.querySelectorAll(".language-option");
-  languageOptions.forEach((option) => {
-    option.addEventListener("click", () => {
-      let language = option.id;
-      console.log(language);
-      changeUiLanguage(language);
-    });
-  });
-}
+// languages();

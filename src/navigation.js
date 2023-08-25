@@ -9,13 +9,13 @@ import {
   getPaginatedMoviesBySearch,
   getPaginatedMoviesByCategory,
   getLikedMovies,
-  selectedLanguage,
 } from "./main.js";
 
 export let maxPage;
 export let page = 1;
 let infiniteScroll;
-export const languagesTemplates = {
+let currentLanguage;
+const languagesTemplates = {
   es: {
     searchLabel: "Vengadores",
     trending: "Tendencias",
@@ -69,6 +69,7 @@ arrowBtn.addEventListener("click", () => {
 
 window.addEventListener("DOMContentLoaded", navigator, false);
 window.addEventListener("hashchange", navigator, false);
+window.addEventListener("hashchange", changeUiLanguage);
 window.addEventListener("scroll", infiniteScroll, false);
 selectLanguageBtn.addEventListener("click", () => {
   languagesBox.classList.toggle("inactive");
@@ -227,3 +228,65 @@ function trendsPage() {
 
   infiniteScroll = getPaginatedTrendingMovies;
 }
+
+//Languages
+
+async function changeUiLanguage() {
+  if (location.hash.startsWith("#trends")) {
+    changeUiLanguageTrends(currentLanguage);
+  } else if (location.hash.startsWith("#search=")) {
+    console.log("Search if");
+    changeUiLanguageSearch(currentLanguage);
+  } else if (location.hash.startsWith("#movie=")) {
+  } else if (location.hash.startsWith("#category=")) {
+  } else {
+    changeUiLanguageHome(currentLanguage);
+  }
+}
+
+export function selectedLanguage() {
+  const languageOptions = document.querySelectorAll(".language-option");
+  languageOptions.forEach((option) => {
+    option.addEventListener("click", () => {
+      languagesBox.classList.add("inactive");
+      let language = option.id;
+      currentLanguage = language;
+      changeUiLanguage();
+    });
+  });
+}
+
+function changeUiLanguageHome(language) {
+  console.log("ChangeUI: " + language);
+  try {
+    searchFormInput.setAttribute(
+      "placeholder",
+      languagesTemplates[language].searchLabel
+    );
+    trendingTitle.innerHTML = languagesTemplates[language].trending;
+    categoriesPreviewTitle.innerHTML = languagesTemplates[language].categories;
+    trendingBtn.innerHTML = languagesTemplates[language].trendingBtn;
+    favoritesMoviesTitle.innerHTML =
+      languagesTemplates[language].favoriteMovies;
+    footer.innerText = languagesTemplates[language].footer;
+  } catch (err) {
+    console.log("Error con el idioma: " + err);
+  }
+
+  console.log("Current language: " + currentLanguage);
+}
+
+function changeUiLanguageTrends(language) {
+  headerCategoryTitle.innerHTML = languagesTemplates[language].trending;
+  footer.innerText = languagesTemplates[language].footer;
+}
+
+function changeUiLanguageSearch(language) {
+  searchFormInput.setAttribute(
+    "placeholder",
+    languagesTemplates[language].searchLabel
+  );
+  footer.innerText = languagesTemplates[language].footer;
+}
+
+// function change
