@@ -241,10 +241,12 @@ async function changeUiLanguage() {
   } else if (location.hash.startsWith("#movie=")) {
     changeUiLanguageMovieDetails(currentLanguage);
   } else if (location.hash.startsWith("#category=")) {
+    console.log("Lol nothing happens :D");
   } else {
     changeUiLanguageHome(currentLanguage);
     getCategoriesPreview();
   }
+  selectLanguageBtn.innerText = currentLanguage.toUpperCase();
 }
 
 export function selectedLanguage() {

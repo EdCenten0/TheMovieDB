@@ -256,7 +256,7 @@ footer {
 .select-language-container {
   position: absolute;
   right: 0;
-  margin-right: 4rem;
+  margin-right: 2rem;
   width: 100px;
   height: 60px;
   display: grid;
