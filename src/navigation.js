@@ -14,7 +14,8 @@ import {
 export let maxPage;
 export let page = 1;
 let infiniteScroll;
-let currentLanguage;
+export let currentLanguage = "es";
+console.log(currentLanguage);
 const languagesTemplates = {
   es: {
     searchLabel: "Vengadores",
@@ -242,6 +243,7 @@ async function changeUiLanguage() {
   } else if (location.hash.startsWith("#category=")) {
   } else {
     changeUiLanguageHome(currentLanguage);
+    getCategoriesPreview();
   }
 }
 

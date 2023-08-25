@@ -1,6 +1,7 @@
 import { API_KEY } from "./secrets.js";
 import { page } from "./navigation.js";
 import { maxPage } from "./navigation.js";
+import { currentLanguage } from "./navigation.js";
 
 // Data
 const api = axios.create({
@@ -10,7 +11,6 @@ const api = axios.create({
   },
   params: {
     api_key: API_KEY,
-    language: navigator.language || "es-ES",
   },
 });
 
@@ -135,8 +135,13 @@ export async function getTrendingMoviesPreview() {
 }
 
 export async function getCategoriesPreview() {
-  const { data } = await api("genre/movie/list");
+  const { data } = await api("genre/movie/list", {
+    params: {
+      language: currentLanguage,
+    },
+  });
   const categories = data.genres;
+  console.log("categoriesPreview called");
 
   createCategories(categories, categoriesPreviewList);
 }
