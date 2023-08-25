@@ -238,6 +238,7 @@ async function changeUiLanguage() {
     console.log("Search if");
     changeUiLanguageSearch(currentLanguage);
   } else if (location.hash.startsWith("#movie=")) {
+    changeUiLanguageMovieDetails(currentLanguage);
   } else if (location.hash.startsWith("#category=")) {
   } else {
     changeUiLanguageHome(currentLanguage);
@@ -289,4 +290,6 @@ function changeUiLanguageSearch(language) {
   footer.innerText = languagesTemplates[language].footer;
 }
 
-// function change
+function changeUiLanguageMovieDetails(language) {
+  relatedMoviesTitle.innerHTML = languagesTemplates[language].similarMovies;
+}
