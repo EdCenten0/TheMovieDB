@@ -257,7 +257,13 @@ export async function getMovieById(id) {
   `;
 
   movieDetailTitle.textContent = movie.title;
-  movieDetailDescription.textContent = movie.overview;
+  if (movie.overview) {
+    movieDetailDescription.textContent = movie.overview;
+  } else {
+    movieDetailDescription.textContent =
+      "Sorry, this movie got no description, an api's problem. Now sorry again, I need to fill thsi box with nonsense text just to keep this section working: Tread lightly, she is near Under the snow, Speak gently, she can hear The daisies grow. All her bright golden hair Tarnished with rust, She that was young and fair Fallen to dust … Its title taken from the Latin for ‘(may he or she) rest in peace’, this short poem is one of Wilde’s most understated and touching, about a dead loved one who is now buried underground. The poem was inspired by the death of someone Wilde was very close to: his own sister. Isola Wilde died, aged just nine, in 1867; Wilde wrote this moving elegy for Isola in 1881. ‘All my life’s buried here, / Heap earth upon it’ is one of Wilde’s most moving poetic lines (or couple of lines) because they are simple yet heartfelt.";
+  }
+
   movieDetailScore.textContent = movie.vote_average;
 
   createCategories(movie.genres, movieDetailCategoriesList);
